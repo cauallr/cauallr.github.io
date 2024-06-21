@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="https://aframe.io/releases/1.1.0/aframe.min.js"></script>
+    <script src="//cdn.rawgit.com/donmccurdy/aframe-extras/v3.13.1/dist/aframe-extras.min.js"></script>
+    <script src="scripts/luzes-eventos.js"></script>
+</head>
+<body>
+    <a-scene luzes fog="type: linear; far: 1000;" shadow="type: pcfsoft">
+        <a-light type="ambient" color="pink" intensity="0.5"></a-light>
+        <a-light type="directional" position="0 0 0" intensity="1" target="#center" color="#ffffff" castShadow="true"></a-light>
+        
+        <!-- Camera with flight controls -->
+        <a-entity class="player" id="player" position="70 50 4" rotation= "0 180 0"
+                  camera look-controls wasd-controls>
+        </a-entity>
+
+        <!-- Assets -->
+        <a-assets>
+           
+            <a-asset-item id="moon" src="assets/moon.glb"></a-asset-item>
+            <a-asset-item id="city-model" src="assets/city-model.glb"></a-asset-item>
+            <a-asset-item id="city-opt" src="assets/city-opt.glb"></a-asset-item>
+            <a-asset-item id="city-cyberphunk" src="assets/247_cyberpunk_store.glb"></a-asset-item>
+            <a-asset-item id="city-cyberphunk2" src="assets/cyberpunk_city_-_1.glb"></a-asset-item>
+            <a-asset-item id="floor" src="assets/sci_fi_floor_panel01_medium_4x10.glb"></a-asset-item>
+            <a-asset-item id="sky" src="assets/night_sky_visible_spectrum_monochromatic.glb"></a-asset-item>
+            <a-asset-item id="nave" src="assets/sky_cruiser.glb"></a-asset-item>
+            <a-asset-item id="predio" src="assets/predio.glb"></a-asset-item>
+          
+            
+        </a-assets>
+
+       
+
+      
+        <a-light type="directional" position="0 200 -0" target="#center" intensity="1" color="pink" castShadow="true"></a-light>
+        <a-entity id="center" position="0 0 0"></a-entity>
+        
+
+        <!-- Garden and House -->
+        <a-entity id="Urbano" position="10 0 0">
+           
+            <a-entity gltf-model="#sky" scale="17 17 17" position="0 200 0"></a-entity>
+            <a-entity gltf-model="#predio" scale="0.05 0.05 0.05" position="0 0 -200"></a-entity>
+            <a-entity gltf-model="#predio" scale="0.05 0.05 0.05" position="100 0 -60"></a-entity>
+            <a-entity gltf-model="#predio" scale="0.05 0.05 0.05" position="50 0 -300"></a-entity>
+           
+            <a-entity gltf-model="#nave" scale="70 70 70" position="0 200 -50"></a-entity>
+            <a-entity gltf-model="#nave" scale="100 100 100" position="200 200 0"></a-entity>
+            <a-entity gltf-model="#nave" scale="100 100 100" position="-200 200 50"></a-entity>
+            <a-entity gltf-model="#buildings" scale="0.2 0.2 0.2" position="0 0 -2"></a-entity>
+            <a-entity gltf-model="#moon" scale="0.1 0.1 0.1" position="200 300 0" rotation="45 90 180"></a-entity>
+            <a-entity gltf-model="#floor" scale="100 50 100" position="-300 0 300" rotation="0 0 0"></a-entity>
+            <!--<a-entity gltf-model="#city-model" scale="0.02 0.02 0.02" position="0 0 0" rotation="0 0 0"></a-entity>-->
+            <a-entity gltf-model="#city-cyberphunk" scale="20 20 20" position="-250 0 100" rotation="0 -20 0"></a-entity>
+            <!--<a-entity gltf-model="#city-opt" scale="0.7 0.7 0.7 " position="450 0 20" rotation="0 0 0"></a-entity>-->
+            <a-entity gltf-model="#city-cyberphunk2" scale="50 50 50 " position="0 0 50" rotation="0 0 0"></a-entity>
+            <a-entity gltf-model="#city-cyberphunk2" scale="50 50 50 " position="50 0 -250" rotation="0 180 0"></a-entity>
+        </a-entity>
+    </a-scene>
+
+    <!-- Custom script for flight controls -->
+    <script>
+        AFRAME.registerComponent('elevation-controls', {
+            init: function () {
+                window.addEventListener('keydown', this.onKeyDown.bind(this));
+            },
+            onKeyDown: function (event) {
+                let position = this.el.getAttribute('position');
+                switch (event.code) {
+                    case 'KeyO':
+                        position.y += 1;
+                        break;
+                    case 'KeyL':
+                        position.y -= 1;
+                        break;
+                }
+                this.el.setAttribute('position', position);
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelector('#player').setAttribute('elevation-controls', '');
+        });
+    </script>
+</body>
+</html>
